@@ -1,0 +1,59 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Eclipse
+*.classpath
+*.project
+*.settings/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+out/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Others
+*.swp
+*.swo
+
+# Ignore OneDrive sync files
+*.lnk
+~$*
+
+# Ignore test reports
+/test-outputs/
+
+# Ignore generated files
+**/target/
+**/bin/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+

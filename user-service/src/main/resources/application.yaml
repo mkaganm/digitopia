@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application.name: user-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/userdb}
+    username: ${SPRING_DATASOURCE_USERNAME:userdb}
+    password: ${SPRING_DATASOURCE_PASSWORD:userdb}
+  jpa:
+    hibernate.ddl-auto: validate
+    properties.hibernate.jdbc.time_zone: UTC
+  flyway.enabled: true
+
+management.endpoints.web.exposure.include: health,info
