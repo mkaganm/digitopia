@@ -4,7 +4,7 @@ WORKDIR /app
 # cache için önce wrapper ve gradle dosyaları
 COPY gradlew ./
 COPY gradle gradle
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle ./
 RUN ./gradlew --no-daemon dependencies || true
 # sonra kaynak kod
 COPY . .
