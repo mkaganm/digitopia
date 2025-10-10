@@ -1,14 +1,26 @@
--- userdb
-CREATE DATABASE userdb;
-CREATE USER userdb WITH PASSWORD 'userdb';
-GRANT ALL PRIVILEGES ON DATABASE userdb TO userdb;
+-- Create per-service databases if not exists (all owned by postgres)
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'userdb') THEN
+    CREATE DATABASE userdb OWNER postgres;
+END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'orgdb') THEN
+    CREATE DATABASE orgdb OWNER postgres;
+END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'invdb') THEN
+    CREATE DATABASE invdb OWNER postgres;
+END IF;
+END
+$$;
 
--- orgdb
-CREATE DATABASE orgdb;
-CREATE USER orgdb WITH PASSWORD 'orgdb';
-GRANT ALL PRIVILEGES ON DATABASE orgdb TO orgdb;
+-- Ensure public schema ownership (optional but clean)
+\connect userdb
+ALTER SCHEMA public OWNER TO postgres;
 
--- invdb
-CREATE DATABASE invdb;
-CREATE USER invdb WITH PASSWORD 'invdb';
-GRANT ALL PRIVILEGES ON DATABASE invdb TO invdb;
+\connect orgdb
+ALTER SCHEMA public OWNER TO postgres;
+
+\connect invdb
+ALTER SCHEMA public OWNER TO postgres;
+
+\connect postgres
