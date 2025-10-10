@@ -75,11 +75,26 @@ public class OrganizationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Organization not found: " + id));
     }
 
-    // --- helpers ---
     private static String normalizeAscii(String input) {
-        String lower = input.toLowerCase(Locale.ENGLISH);
-        String decomposed = Normalizer.normalize(lower, Normalizer.Form.NFD);
+        if (input == null) return "";
+        // 1) Turkish-aware lowercase
+        String lower = input.toLowerCase(java.util.Locale.forLanguageTag("tr"));
+
+        // 2) Map Turkish-specific letters to ASCII equivalents
+        lower = lower
+                .replace('ı', 'i')
+                .replace('İ', 'i') // in case upper slipped in
+                .replace('ğ', 'g').replace('Ğ', 'g')
+                .replace('ş', 's').replace('Ş', 's')
+                .replace('ö', 'o').replace('Ö', 'o')
+                .replace('ü', 'u').replace('Ü', 'u')
+                .replace('ç', 'c').replace('Ç', 'c');
+
+        // 3) Remove any remaining diacritics (safety net)
+        String decomposed = java.text.Normalizer.normalize(lower, java.text.Normalizer.Form.NFD);
         String stripped = decomposed.replaceAll("\\p{M}+", "");
+
+        // 4) Keep only [a-z0-9]
         return stripped.replaceAll("[^a-z0-9]", "");
     }
 }

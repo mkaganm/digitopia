@@ -36,6 +36,7 @@ public class UserEntity {
 
     // getters/setters
     public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public OffsetDateTime getUpdatedAt() { return updatedAt; }
     public UUID getCreatedBy() { return createdBy; }
