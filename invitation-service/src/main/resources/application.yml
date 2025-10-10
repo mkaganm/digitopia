@@ -1,12 +1,12 @@
 server:
-  port: 8083
+  port: ${SERVER_PORT:8083}
 
 spring:
   application:
     name: invitation-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/invitationdb}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/invdb}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -49,3 +49,10 @@ logging:
     org.springframework: INFO
   pattern:
     console: "%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"
+
+# Inter-service HTTP calls
+remote:
+  user-service:
+    base-url: ${USER_SERVICE_URL:http://user-service:8081}
+  org-service:
+    base-url: ${ORG_SERVICE_URL:http://org-service:8082}
