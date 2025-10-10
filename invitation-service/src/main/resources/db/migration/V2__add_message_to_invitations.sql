@@ -1,0 +1,2 @@
+ALTER TABLE invitations
+    ADD COLUMN IF NOT EXISTS message VARCHAR(500);

@@ -68,7 +68,8 @@ services:
       rabbitmq:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/healtz || exit 1"]
+      # user-service exposes /api/v1/users/healtz on port 8081
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/api/v1/users/healtz || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10
@@ -94,13 +95,18 @@ services:
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
       SERVER_PORT: 8082
+      # inter-service call to user-service
+      USER_SERVICE_URL: http://user-service:8081
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      user-service:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8081/healtz || exit 1"]
+      # org-service exposes /api/v1/orgs/healtz on port 8082 (adjust if different)
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8082/api/v1/orgs/healtz || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10
@@ -126,13 +132,21 @@ services:
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
       SERVER_PORT: 8083
+      # inter-service calls
+      USER_SERVICE_URL: http://user-service:8081
+      ORG_SERVICE_URL: http://org-service:8082
     depends_on:
       postgres:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
+      user-service:
+        condition: service_healthy
+      org-service:
+        condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8082/healtz || exit 1"]
+      # invitation-service exposes /api/v1/invitations/healtz on port 8083
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8083/api/v1/invitations/healtz || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 10
