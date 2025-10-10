@@ -8,10 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 import java.util.UUID;
 
+@Tag(name = "Organizations", description = "Organization management endpoints")
 @RestController
 @RequestMapping("/api/v1/orgs")
 @RequiredArgsConstructor

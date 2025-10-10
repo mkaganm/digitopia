@@ -7,17 +7,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * REST endpoints for Invitation lifecycle:
- * - create invitation
- * - accept / reject / generic status update
- * - queries by org / user
- */
+
+@Tag(name = "Invitations", description = "Invitation management endpoints")
 @RestController
 @RequestMapping("/api/v1/invitations")
 @RequiredArgsConstructor

@@ -1,18 +1,18 @@
 ## 🧩 Digitopia Case – MVP Yapılacaklar Listesi
 
-- [ ] Swagger / OpenAPI ekle (her servise)  
+- [x] Swagger / OpenAPI ekle (her servise)  
   *springdoc dependency + `/swagger-ui.html` erişimi sağla.*
 
-- [ ] (Opsiyonel) `.http` veya Swagger Collection dosyası ekle  
-  *API testlerini kolaylaştırmak için.*
+- [x] (Opsiyonel) `.http` veya Swagger Collection dosyası ekle  
+  *API testlerini kolaylaştırmak için.
 
 - [x] Global Exception Handler (`@ControllerAdvice`) ekle  
   *400 (Bad Request) ve 404 (Not Found) hatalarını JSON formatında dön.*
 
-- [ ] Healthcheck endpoint’lerini doğrula  
+- [x] Healthcheck endpoint’lerini doğrula  
   *Docker Compose’daki yollar `/api/v1/.../healtz` ile uyumlu olsun.*
 
-- [ ] Flyway sürümleme disiplini koru  
+- [x] Flyway sürümleme disiplini koru  
   *`V1__` dosyaları sabit, yeni değişiklikleri `V2__`, `V3__` olarak ekle.*
 
 - [ ] RabbitMQ mesajlarını test et  

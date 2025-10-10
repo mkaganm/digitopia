@@ -1,0 +1,20 @@
+### Health
+GET http://localhost:8081/api/v1/users/healtz
+
+### Create user
+POST http://localhost:8081/api/v1/users
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "fullName": "Alice Doe"
+}
+
+### Get by id (replace {{id}})
+GET http://localhost:8081/api/v1/users/{{id}}
+
+### Search by name
+GET http://localhost:8081/api/v1/users/search?name=alice&page=0&size=10
+
+### Swagger UI
+GET http://localhost:8081/swagger-ui.html

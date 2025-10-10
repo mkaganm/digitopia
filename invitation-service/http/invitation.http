@@ -1,0 +1,27 @@
+### Health
+GET http://localhost:8083/api/v1/invitations/healtz
+
+### Create invitation (replace {{orgId}} and {{userId}})
+POST http://localhost:8083/api/v1/invitations
+Content-Type: application/json
+
+{
+  "organizationId": "{{orgId}}",
+  "invitedUserId": "{{userId}}",
+  "message": "Welcome!"
+}
+
+### Accept invitation (replace {{invId}})
+PATCH http://localhost:8083/api/v1/invitations/{{invId}}/accept
+
+### Reject invitation (replace {{invId}})
+PATCH http://localhost:8083/api/v1/invitations/{{invId}}/reject
+
+### By Org (replace {{orgId}})
+GET http://localhost:8083/api/v1/invitations/by-org/{{orgId}}
+
+### By User (replace {{userId}})
+GET http://localhost:8083/api/v1/invitations/by-user/{{userId}}
+
+### Swagger UI
+GET http://localhost:8083/swagger-ui.html
