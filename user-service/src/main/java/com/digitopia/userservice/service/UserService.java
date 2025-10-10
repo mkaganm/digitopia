@@ -1,13 +1,13 @@
 package com.digitopia.userservice.service;
 
 import com.digitopia.userservice.domain.UserEntity;
+import com.digitopia.userservice.exception.ResourceNotFoundException;
 import com.digitopia.userservice.repo.UserRepository;
 import com.digitopia.userservice.user.api.dto.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.text.Normalizer;
 import java.util.Locale;
@@ -48,7 +48,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserDto getById(UUID id) {
         UserEntity u = repo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found: " + id));
         // status is String in your entity; do not call .name()
         return new UserDto(u.getId(), u.getEmail(), u.getStatus(), u.getFullName());
     }

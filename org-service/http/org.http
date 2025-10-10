@@ -1,0 +1,20 @@
+### Health
+GET http://localhost:8082/api/v1/orgs/healtz
+
+### Create org (replace {{ownerId}})
+POST http://localhost:8082/api/v1/orgs
+Content-Type: application/json
+
+{
+  "name": "Digitopia Inc",
+  "ownerId": "{{ownerId}}"
+}
+
+### Get by id (replace {{orgId}})
+GET http://localhost:8082/api/v1/orgs/{{orgId}}
+
+### Search
+GET http://localhost:8082/api/v1/orgs/search?q=digitopia&page=0&size=10
+
+### Swagger UI
+GET http://localhost:8082/swagger-ui.html

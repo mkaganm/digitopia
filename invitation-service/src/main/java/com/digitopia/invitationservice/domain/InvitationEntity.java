@@ -48,7 +48,7 @@ public class InvitationEntity {
 
     // --- Getters & Setters ---
     public UUID getId() { return id; }
-
+    public  void setId(UUID id) { this.id = id; }
     public UUID getOrganizationId() { return organizationId; }
     public void setOrganizationId(UUID organizationId) { this.organizationId = organizationId; }
 
