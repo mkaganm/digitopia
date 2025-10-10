@@ -3,7 +3,10 @@
 - [ ] Swagger / OpenAPI ekle (her servise)  
   *springdoc dependency + `/swagger-ui.html` erişimi sağla.*
 
-- [ ] Global Exception Handler (`@ControllerAdvice`) ekle  
+- [ ] (Opsiyonel) `.http` veya Swagger Collection dosyası ekle  
+  *API testlerini kolaylaştırmak için.*
+
+- [x] Global Exception Handler (`@ControllerAdvice`) ekle  
   *400 (Bad Request) ve 404 (Not Found) hatalarını JSON formatında dön.*
 
 - [ ] Healthcheck endpoint’lerini doğrula  
@@ -17,9 +20,6 @@
 
 - [ ] Manuel E2E test akışı oluştur  
   *User → Org → Invitation oluştur; aynı kombinasyonda ikinci POST → 400 beklenir.*
-
-- [ ] (Opsiyonel) `.http` veya Swagger Collection dosyası ekle  
-  *API testlerini kolaylaştırmak için.*
 
 - [ ] (Opsiyonel) Scheduler ekle  
   *7 gün sonra `PENDING` davetleri `EXPIRED` durumuna geçir.*

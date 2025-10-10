@@ -3,6 +3,7 @@ package com.digitopia.invitationservice.service;
 import com.digitopia.invitationservice.client.OrgClient;          // validate org existence
 import com.digitopia.invitationservice.client.UserClient;         // validate user existence
 import com.digitopia.invitationservice.domain.InvitationEntity;
+import com.digitopia.invitationservice.exception.ResourceNotFoundException;
 import com.digitopia.invitationservice.repo.InvitationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.TopicExchange;
@@ -70,7 +71,7 @@ public class InvitationService {
         }
 
         InvitationEntity inv = repo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invitation not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invitation not found"));
 
         inv.setStatus(newStatus);
         InvitationEntity updated = repo.save(inv);
