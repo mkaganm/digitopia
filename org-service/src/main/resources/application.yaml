@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: ${SERVER_PORT:8082}
 
 spring:
   application:
@@ -49,3 +49,8 @@ logging:
     org.springframework: INFO
   pattern:
     console: "%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"
+
+# <-- NEW: inter-service call configuration
+remote:
+  user-service:
+    base-url: ${USER_SERVICE_URL:http://user-service:8081}
