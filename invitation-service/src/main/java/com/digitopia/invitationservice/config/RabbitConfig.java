@@ -1,21 +1,17 @@
 package com.digitopia.invitationservice.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * RabbitMQ configuration for invitations.
- * - Durable TopicExchange ("digitopia.exchange")
- * - Optional queues & bindings for "invitation.created" and "invitation.status.changed"
- */
 @Configuration
+@EnableRabbit
 public class RabbitConfig {
-
-    // --- connection & template ---
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -28,45 +24,20 @@ public class RabbitConfig {
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        return new RabbitTemplate(connectionFactory);
-        // If you start sending JSON payloads, set a converter:
-        // var tpl = new RabbitTemplate(connectionFactory);
-        // tpl.setMessageConverter(new Jackson2JsonMessageConverter());
-        // return tpl;
+    public Jackson2JsonMessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
-    // --- exchange ---
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+                                         Jackson2JsonMessageConverter messageConverter) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(messageConverter);
+        return template;
+    }
 
     @Bean
     public TopicExchange topicExchange() {
-        // durable=true, autoDelete=false
         return new TopicExchange("digitopia.exchange", true, false);
-    }
-
-    // --- OPTIONAL: queues & bindings (add only if you have/plan consumers) ---
-
-    @Bean
-    public Queue invitationCreatedQueue() {
-        return new Queue("q.invitation.created", true);
-    }
-
-    @Bean
-    public Binding bindInvitationCreated(Queue invitationCreatedQueue, TopicExchange topicExchange) {
-        return BindingBuilder.bind(invitationCreatedQueue)
-                .to(topicExchange)
-                .with("invitation.created");
-    }
-
-    @Bean
-    public Queue invitationStatusChangedQueue() {
-        return new Queue("q.invitation.status.changed", true);
-    }
-
-    @Bean
-    public Binding bindInvitationStatusChanged(Queue invitationStatusChangedQueue, TopicExchange topicExchange) {
-        return BindingBuilder.bind(invitationStatusChangedQueue)
-                .to(topicExchange)
-                .with("invitation.status.changed");
     }
 }
