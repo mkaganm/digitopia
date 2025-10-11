@@ -4,6 +4,8 @@ import com.digitopia.invitationservice.client.OrgClient;          // optional ex
 import com.digitopia.invitationservice.client.UserClient;         // optional external validation
 import com.digitopia.invitationservice.domain.InvitationEntity;
 import com.digitopia.invitationservice.exception.ResourceNotFoundException;
+import com.digitopia.invitationservice.queue.dto.InvitationCreatedEvent;
+import com.digitopia.invitationservice.queue.dto.InvitationStatusChangedEvent;
 import com.digitopia.invitationservice.repo.InvitationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.TopicExchange;
@@ -11,6 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -62,7 +65,18 @@ public class InvitationService {
 
         // 4) Save + publish event
         InvitationEntity saved = repo.save(inv);
-        rabbit.convertAndSend(exchange.getName(), "invitation.created", saved.getId().toString());
+
+        var evt = new InvitationCreatedEvent(
+                UUID.randomUUID(),
+                saved.getId(),
+                saved.getOrganizationId(),
+                saved.getInvitedUserId(),
+                saved.getMessage(),
+                saved.getStatus(),
+                OffsetDateTime.now()
+        );
+        rabbit.convertAndSend(exchange.getName(), "invitation.created", evt);
+
         return saved;
     }
 
@@ -78,7 +92,16 @@ public class InvitationService {
         inv.setStatus(newStatus);
         InvitationEntity updated = repo.save(inv);
 
-        rabbit.convertAndSend(exchange.getName(), "invitation.status.changed", id + ":" + newStatus);
+        var statusEvt = new InvitationStatusChangedEvent(
+                UUID.randomUUID(),
+                id,
+                inv.getOrganizationId(),
+                inv.getInvitedUserId(),
+                newStatus,
+                OffsetDateTime.now()
+        );
+        rabbit.convertAndSend(exchange.getName(), "invitation.status.changed", statusEvt);
+
         return updated;
     }
 
